@@ -61,12 +61,25 @@ export const addBlog = async (req, res) => {
     }
     const image = await uploadOnCloudinary(req.files.image[0].path)
 
+    let image1 = null;
+    let image2 = null;
+
+    if (req.files.image1) {
+        image1 = await uploadOnCloudinary(req.files.image1[0].path);
+    }
+
+    if (req.files.image2) {
+        image2 = await uploadOnCloudinary(req.files.image2[0].path);
+    }
+    
     const blog = await Blog.create({
         title: blogTitle,
         content: blogContent,
         image: image.secure_url,
         tag: blogTag,
-        category: blogCategory
+        category: blogCategory,
+        image1: image1 ? image1.secure_url : null,
+        image2: image2 ? image2.secure_url : null,
     })
 
     if (!blog) {
