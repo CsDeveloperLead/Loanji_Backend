@@ -59,8 +59,12 @@ export const addBlog = async (req, res) => {
     if (!blogTitle || !blogCategory || !blogTag || !blogContent || !req.files.image) {
         return res.status(401).json({ error: "Title, Category, tag and Image is required" })
     }
-    console.log('Testtttt ---->', req.files.image)
+
     const image = await uploadOnCloudinary(req.files.image[0].path)
+
+    if (image) {
+        throw new Error(500, `There is an errro in image : ${req.files}`)
+    }
 
     let image1 = null;
     let image2 = null;
@@ -72,7 +76,7 @@ export const addBlog = async (req, res) => {
     if (req.files.image2) {
         image2 = await uploadOnCloudinary(req.files.image2[0].path);
     }
-    
+
     const blog = await Blog.create({
         title: blogTitle,
         content: blogContent,
