@@ -62,10 +62,6 @@ export const addBlog = async (req, res) => {
 
     const image = await uploadOnCloudinary(req.files.image[0].path)
 
-    if (image) {
-        throw new Error(500, `There is an errro in image : ${req.files}`)
-    }
-
     let image1 = null;
     let image2 = null;
 
