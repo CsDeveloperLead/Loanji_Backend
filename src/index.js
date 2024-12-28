@@ -23,8 +23,7 @@ connectDB()
                 } catch (error) {
                     console.error('Health check failed:', error)
                 }
-            }, 10000)
-            // 10 * 60 * 1000
+            }, 5 * 60 * 1000)
         })
     })
     .catch((error) => {
