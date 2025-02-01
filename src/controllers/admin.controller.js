@@ -1,6 +1,7 @@
 import { Admin } from "../model/admin.model.js";
 import jwt from 'jsonwebtoken'
 import { Blog } from "../model/blogs.model.js";
+import { Loan } from "../model/loan.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 //this logic is to add admin credentials to backend
@@ -157,3 +158,36 @@ export const deleteSingleBlog = async (req, res) => {
         .status(200)
         .json({ message: "Blog deleted Successfully" });
 }
+
+export const addLoanDetails = async(req,res) => {
+    try {
+        const { loanDetails, personalDetails, status, termsAccepted } = req.body;
+
+        console.log("Flag 1");
+        const existingLoan = await Loan.findOne({ "personalDetails.email": personalDetails.email });
+
+        if (existingLoan) {
+            return res.status(400).json({ message: "A loan application with this email already exists." });
+        }
+        const LoanDetail = await Loan.create({
+            loanDetails,
+            personalDetails,
+            status,
+            termsAccepted
+        });
+
+        if (!LoanDetail) {
+            return res.status(400).json({ message: "Loan Details not Added" });
+        }
+
+        return res.status(201).json({ message: "Loan Details Added", data: LoanDetail });
+
+    } catch (error) {
+        console.error("Error adding loan details:", error);
+        if (error.code === 11000) {
+            return res.status(400).json({ message: "Duplicate entry: This email is already registered." });
+        }
+
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+};
