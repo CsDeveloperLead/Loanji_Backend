@@ -160,21 +160,19 @@ export const deleteSingleBlog = async (req, res) => {
         .json({ message: "Blog deleted Successfully" });
 }
 
-export const addLoanDetails = async(req,res) => {
+export const addLoanDetails = async (req, res) => {
     try {
-        const { loanDetails, personalDetails, status, termsAccepted } = req.body;
+        const { loanDetails, personalDetails } = req.body;
 
-        console.log("Flag 1");
         const existingLoan = await Loan.findOne({ "personalDetails.email": personalDetails.email });
 
         if (existingLoan) {
             return res.status(400).json({ message: "A loan application with this email already exists." });
         }
+
         const LoanDetail = await Loan.create({
             loanDetails,
-            personalDetails,
-            status,
-            termsAccepted
+            personalDetails
         });
 
         if (!LoanDetail) {
