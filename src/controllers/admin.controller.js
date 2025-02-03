@@ -2,6 +2,7 @@ import { Admin } from "../model/admin.model.js";
 import jwt from 'jsonwebtoken'
 import { Blog } from "../model/blogs.model.js";
 import { Loan } from "../model/loan.model.js";
+import { ContactUs } from "../model/contact.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 //this logic is to add admin credentials to backend
@@ -191,3 +192,28 @@ export const addLoanDetails = async(req,res) => {
         return res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 };
+
+export const addContactUs = async(req,res) => {
+    try{
+        const {firstname,lastname,email,mobile,message} = req.body;
+        const contact = await ContactUs.create({
+            firstname,
+            lastname,
+            email,
+            mobile,
+            message
+        })
+        if(!contact)
+        {
+            console.log("Contact not stored");
+            return res.status(500).json({message:"Internal Server Error", error:error.message});
+        }
+        return res.status(201).json({message:"Contact Stored",data:contact});
+    }
+    catch(err)
+    {
+        console.error("Error adding Contact  details:", error);
+
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
