@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 
 const loanApplicationSchema = new mongoose.Schema({
     
-    // Loan Details
-    loanDetails: {
         loanAmount: {
             type: Number,
             required: true,
@@ -17,12 +15,8 @@ const loanApplicationSchema = new mongoose.Schema({
         purpose: {
             type: String,
             required: true,
-            enum: ['PERSONAL', 'BUSINESS', 'EDUCATION', 'HOME', 'VEHICLE', 'OTHER']
-        }
-    },
-
-    // Personal Details
-    personalDetails: {
+        },
+    
         fullName: {
             type: String,
             required: true,
@@ -33,10 +27,7 @@ const loanApplicationSchema = new mongoose.Schema({
         email: {
             type: String,
             required: true,
-            unique: true,
-            trim: true,
-            lowercase: true,
-            match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email']
+            trim: true
         },
         dateOfBirth: {
             type: Date,
@@ -51,23 +42,20 @@ const loanApplicationSchema = new mongoose.Schema({
         panCard: {
             type: String,
             required: true,
-            unique: true,
+            // unique: true,
             trim: true,
             uppercase: true,
-            match: [/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Please provide a valid PAN number']
         },
         mobileNumber: {
             type: String,
             required: true,
             trim: true,
-            match: [/^[6-9]\d{9}$/, 'Please provide a valid Indian mobile number']
         },
         aadhaarNumber: {
             type: String,
             required: true,
-            unique: true,
+            // unique: true,
             trim: true,
-            match: [/^\d{12}$/, 'Please provide a valid Aadhaar number']
         },
         gender: {
             type: String,
@@ -88,25 +76,9 @@ const loanApplicationSchema = new mongoose.Schema({
             type: String,
             required: true,
             trim: true,
-            match: [/^\d{6}$/, 'Please provide a valid PIN code']
         }
     },
-
-    // Application Status
-    status: {
-        type: String,
-        required: true,
-        enum: ['PENDING', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'DISBURSED'],
-        default: 'PENDING'
-    },
-
-    // Terms and Conditions
-    termsAccepted: {
-        type: Boolean,
-        required: true,
-        default: false
-    }
-}, {
+{
     timestamps: true,
     versionKey: false
 });

@@ -162,32 +162,21 @@ export const deleteSingleBlog = async (req, res) => {
 
 export const addLoanDetails = async (req, res) => {
     try {
-        const { loanDetails, personalDetails } = req.body;
+        const loanData = req.body;
+        
+        const newLoanApplication = await Loan.create(loanData);
 
-        const existingLoan = await Loan.findOne({ "personalDetails.email": personalDetails.email });
-
-        if (existingLoan) {
-            return res.status(400).json({ message: "A loan application with this email already exists." });
-        }
-
-        const LoanDetail = await Loan.create({
-            loanDetails,
-            personalDetails
+        return res.status(201).json({
+            message: "Loan application submitted successfully",
+            data: newLoanApplication
         });
 
-        if (!LoanDetail) {
-            return res.status(400).json({ message: "Loan Details not Added" });
-        }
-
-        return res.status(201).json({ message: "Loan Details Added", data: LoanDetail });
-
     } catch (error) {
-        console.error("Error adding loan details:", error);
-        if (error.code === 11000) {
-            return res.status(400).json({ message: "Duplicate entry: This email is already registered." });
-        }
-
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        console.error("Error adding loan application:", error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message
+        });
     }
 };
 
