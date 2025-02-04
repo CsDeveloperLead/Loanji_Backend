@@ -30,14 +30,8 @@ const loanApplicationSchema = new mongoose.Schema({
             trim: true
         },
         dateOfBirth: {
-            type: Date,
+            type: String,
             required: true,
-            validate: {
-                validator: function(date) {
-                    return date < new Date();
-                },
-                message: 'Date of birth must be in the past'
-            }
         },
         panCard: {
             type: String,

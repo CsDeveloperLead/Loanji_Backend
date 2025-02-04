@@ -1,24 +1,23 @@
 import mongoose, { Schema } from "mongoose";
-
+ 
 const contactUser = new mongoose.Schema({
-    firstname : {
+    FirstName : {
         type: String,
     },
-    lastname : {
+    LastName : {
         type:String,
     },
-    email: {
+    Email: {
         type:String,
         required:true,
     },
-    mobile: {
+    MobileNumber: {
         type:Number,
         required:true,
     },
-    message: {
+    Message: {
         type:String,
-        required:true
     }
 })
-
-export const ContactUs = mongoose.model("Contact Details", contactUser)
+ 
+export const ContactUs = mongoose.model("Contact Details", contactUser);

@@ -180,27 +180,28 @@ export const addLoanDetails = async (req, res) => {
     }
 };
 
-export const addContactUs = async(req,res) => {
-    try{
-        const {firstname,lastname,email,mobile,message} = req.body;
-        const contact = await ContactUs.create({
-            firstname,
-            lastname,
-            email,
-            mobile,
-            message
-        })
-        if(!contact)
-        {
-            console.log("Contact not stored");
-            return res.status(500).json({message:"Internal Server Error", error:error.message});
-        }
-        return res.status(201).json({message:"Contact Stored",data:contact});
+export const addContactUs = async (req, res) => {
+    try {
+      const { FirstName, LastName, Email, MobileNumber, Message } = req.body;
+      const contact = await ContactUs.create({
+        FirstName,
+        LastName,
+        Email,
+        MobileNumber,
+        Message,
+      });
+      if (!contact) {
+        console.log("Contact not stored");
+        return res
+          .status(500)
+          .json({ message: "Internal Server Error", error: error.message });
+      }
+      return res.status(201).json({ message: "Contact Stored", data: contact });
+    } catch (error) {
+      console.error("Error adding Contact  details:", error);
+   
+      return res
+        .status(500)
+        .json({ message: "Internal Server Error", error: error.message });
     }
-    catch(err)
-    {
-        console.error("Error adding Contact  details:", error);
-
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
-    }
-}
+  };
