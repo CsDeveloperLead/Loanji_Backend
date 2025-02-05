@@ -122,7 +122,7 @@ export const deleteAllBlogs = async (req, res) => {
 
 // this is to get single blog
 export const getSingleBlog = async (req, res) => {
-    const { id } = req.body
+    const { id } = req.params;
 
     if (!id) {
         return res.status(401).json({ error: "Id not founded" })
