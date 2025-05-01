@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addAdmin, addBlog, deleteAllBlogs, deleteSingleBlog, getBlogs, getSingleBlog, login } from "../controllers/admin.controller.js";
+import { addAdmin, addBlog, deleteAllBlogs, deleteSingleBlog, getBlogs, getSingleBlog, login ,addLoanDetails,addContactUs} from "../controllers/admin.controller.js";
 import { upload } from '../middleware/multer.middleware.js'
 
 const router = Router()
@@ -7,10 +7,12 @@ const router = Router()
 router.route("/add-admin").post(addAdmin)
 router.route("/admin-login").post(login)
 router.route("/create-blog").post(upload.fields([{ name: "image", maxCount: 1 },{ name: "image1", maxCount: 1 },{ name: "image2", maxCount: 1 }]), addBlog)
-router.route("/get-blogs").post(getBlogs)
-router.route("/delete-blogs").post(deleteAllBlogs)
-router.route("/get-single-blog").post(getSingleBlog)
-router.route("/delete-single-blog").post(deleteSingleBlog)
+router.route("/get-blogs").get(getBlogs)
+router.route("/delete-blogs").delete(deleteAllBlogs)
+router.route("/get-single-blog/:id").get(getSingleBlog)
+router.route("/delete-single-blog").delete(deleteSingleBlog)
+router.route("/add-loan-details").post(addLoanDetails);
+router.route("/contact-us").post(addContactUs);
 
 
 

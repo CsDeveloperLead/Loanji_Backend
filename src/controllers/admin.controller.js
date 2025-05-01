@@ -1,6 +1,8 @@
 import { Admin } from "../model/admin.model.js";
 import jwt from 'jsonwebtoken'
 import { Blog } from "../model/blogs.model.js";
+import { Loan } from "../model/loan.model.js";
+import { ContactUs } from "../model/contact.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 //this logic is to add admin credentials to backend
@@ -120,7 +122,7 @@ export const deleteAllBlogs = async (req, res) => {
 
 // this is to get single blog
 export const getSingleBlog = async (req, res) => {
-    const { id } = req.body
+    const { id } = req.params;
 
     if (!id) {
         return res.status(401).json({ error: "Id not founded" })
@@ -157,3 +159,49 @@ export const deleteSingleBlog = async (req, res) => {
         .status(200)
         .json({ message: "Blog deleted Successfully" });
 }
+
+export const addLoanDetails = async (req, res) => {
+    try {
+        const loanData = req.body;
+        
+        const newLoanApplication = await Loan.create(loanData);
+
+        return res.status(201).json({
+            message: "Loan application submitted successfully",
+            data: newLoanApplication
+        });
+
+    } catch (error) {
+        console.error("Error adding loan application:", error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+};
+
+export const addContactUs = async (req, res) => {
+    try {
+      const { FirstName, LastName, Email, MobileNumber, Message } = req.body;
+      const contact = await ContactUs.create({
+        FirstName,
+        LastName,
+        Email,
+        MobileNumber,
+        Message,
+      });
+      if (!contact) {
+        console.log("Contact not stored");
+        return res
+          .status(500)
+          .json({ message: "Internal Server Error", error: error.message });
+      }
+      return res.status(201).json({ message: "Contact Stored", data: contact });
+    } catch (error) {
+      console.error("Error adding Contact  details:", error);
+   
+      return res
+        .status(500)
+        .json({ message: "Internal Server Error", error: error.message });
+    }
+  };

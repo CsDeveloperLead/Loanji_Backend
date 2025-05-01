@@ -3,7 +3,7 @@ import cors from 'cors'
 
 const app = express()
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:8000", "https://loanji.vercel.app", "https://loanji-backend.onrender.com"]; // Add any other origins you need
+const allowedOrigins = ["http://localhost:5173", "http://localhost:8000", "https://loanji.vercel.app", "https://loanji-backend.onrender.com" , "https://www.mrloanji.com", "https://loanji-frontend.vercel.app", "https://mrloanji.com", "https://loanji-backend-ten.vercel.app/"]   // Add any other origins you need
 
 app.use(
     cors({
